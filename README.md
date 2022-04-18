@@ -36,10 +36,10 @@ The flask app
 
 **Modules**
 
-*Quote Engine*
+***Quote Engine***
 
 The Quote Engine module is responsible for ingesting many types of files that contain quotes. For our purposes, a quote contains a body and an author.
 
-*Meme Generator Module*
+***Meme Generator Module***
 
 The Meme Engine Module is responsible for manipulating and drawing text onto images.
