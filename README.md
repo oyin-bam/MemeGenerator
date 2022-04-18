@@ -32,7 +32,8 @@ Also, a webapp application is provided to allow interaction with the meme genera
 The flask app
 - Allows to view various meems by clicking on the random button
 - Everytime the random button is cliked, a random meme is generated
-- The app also allows to create a custom meme, by specifying the following information `image_url` `body` `author`
+- The app also allows to create a custom meme, by specifying the following information 
+`image_url` `body` `author`
 
 **Modules**
 
