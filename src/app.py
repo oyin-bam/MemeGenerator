@@ -77,9 +77,9 @@ def meme_post():
     r = requests.get(url) 
     with open(img, 'wb') as f:
         f.write(r.content)
-  
 
     path = meme.make_meme(img, body, author)
+    os.remove(img)
 
     return render_template('meme.html', path=path)
 
