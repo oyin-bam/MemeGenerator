@@ -1,3 +1,4 @@
+"""Entry point from the command line."""
 import imp
 import os
 import random
@@ -5,11 +6,16 @@ import argparse
 from quote_engine import Ingestor
 from quote_engine import QuoteModel
 from meme_engine import MemeEngine
- 
 
 
 def generate_meme(path=None, body=None, author=None):
-    """ Generate a meme given an path and a quote """
+    """Generate a meme given an path and a quote.
+
+    :param path: path to save the generated meme.
+    :param body: the quote to be written on the meme.
+    :param author: the author of the quote.
+    :returns The path the generated meme is saved.
+    """
     img = None
     quote = None
 
@@ -44,13 +50,14 @@ def generate_meme(path=None, body=None, author=None):
     return path
 
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     # path - path to an image file
     # body - quote body to add to the image
     # author - quote author to add to the image
     parser = argparse.ArgumentParser(description="Generate a meme")
     parser.add_argument('--path', type=str, help='The path of the image')
-    parser.add_argument('--body', type=str, help='The quote to be added to the meme')
+    parser.add_argument('--body', type=str,
+                        help='The quote to be added to the meme')
     parser.add_argument('--author', type=str, help='The author of the quote')
     args = parser.parse_args()
     print(generate_meme(args.path, args.body, args.author))
