@@ -32,7 +32,7 @@ class MemeEngine:
         :param text: quote to be written on the meme.
         :param author: author of the quote.
         :return The filepath of the generated meme.
-        """
+        """ 
         img = Image.open(img_path)
         old_width, old_height = img.size
         height = ceil(old_height/old_width * width)
