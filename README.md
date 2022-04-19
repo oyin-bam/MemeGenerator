@@ -23,7 +23,10 @@ An image path
 The program returns a path to a generated image.
 If any argument is not defined, a random selection is used.
 
-`python app.py --path --body --author`
+```
+cd src
+python meme.py --path --body --author
+```
 
 ***Through the flask web app***
 
@@ -34,6 +37,11 @@ The flask app
 - Everytime the random button is cliked, a random meme is generated
 - The app also allows to create a custom meme, by specifying the following information 
 `image_url` `body` `author`
+- Run the flask app with the following command
+```
+cd src
+python app.py
+```
 
 **Modules**
 
