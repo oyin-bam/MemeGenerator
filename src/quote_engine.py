@@ -103,6 +103,7 @@ class TextIngestor(IngestorInterface):
         quotes = []
         with open(path, 'r') as f:
             for content in f.readlines():
+                content = content.strip()
                 if content:
                     body, author = content.split("-")
                     quotes.append(QuoteModel(body=body.strip(),
@@ -131,7 +132,7 @@ class DocxIngestor(IngestorInterface):
         quotes = []
         doc = Document(path)
         for d in doc.paragraphs:
-            content = d.text
+            content = d.text.strip()
             if content:
                 body, author = content.split("-")
                 quotes.append(QuoteModel(body=body.strip(),
@@ -159,13 +160,18 @@ class PDFIngestor(IngestorInterface):
         :return: list of `QuoteModels`
         """
         quotes = []
+        tempfile = "temp.txt"
+        subprocess.run(['pdftotext', '-layout', path, tempfile],
+                        stdout=subprocess.PIPE)
+
         try:
-            tempfile = "." + path.split(".")[1] + ".txt"
+            tempfile = "temp.txt"
             subprocess.run(['pdftotext', '-layout', path, tempfile],
                            stdout=subprocess.PIPE)
 
             with open(tempfile, 'r') as f:
                 for content in f.readlines():
+                    content = content.strip()
                     if content:
                         body, author = content.split("-")
                         quotes.append(QuoteModel(body=body.strip(),
