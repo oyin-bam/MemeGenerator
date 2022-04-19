@@ -59,4 +59,7 @@ if __name__ == "__main__":
                         help='The quote to be added to the meme')
     parser.add_argument('--author', type=str, help='The author of the quote')
     args = parser.parse_args()
-    print(generate_meme(args.path, args.body, args.author))
+    try:
+        print(generate_meme(args.path, args.body, args.author))
+    except:
+        print("Oops! Please check the path of the image you have specified!")

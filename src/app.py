@@ -64,16 +64,21 @@ def meme_post():
     url = request.form['image_url']
     body = request.form['body']
     author = request.form['author']
+    
     img = "tempimg.png"
-    try:
-        r = requests.get(url)
-    except Exception:
-        Exception("Unable to get image from the specified URL")
-    with open(img, 'wb') as f:
-        f.write(r.content)
 
-    path = meme.make_meme(img, body, author)
-    os.remove(img)
+    try:
+        r = requests.get(url) 
+        with open(img, 'wb') as f:
+            f.write(r.content)
+
+        path = meme.make_meme(img, body, author)
+    except:
+        Exception("Cannot identify image file")
+        return render_template('meme_error.html', error_msg="Oops! Looks like you've the wrong URL, try specifying an image URL")
+    finally:
+        if os.path.exists(img):
+            os.remove(img)
 
     return render_template('meme.html', path=path)
 

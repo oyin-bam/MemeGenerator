@@ -7,12 +7,14 @@ Transform image by resizing to a maximum width of.
 Add a caption to an image (string input) with a body.
 and author to a random location on the image.
 """
+from tkinter import font
 from PIL import Image, ImageDraw, ImageFont
 from random import randint
 import os
 import matplotlib.font_manager as fm
 from math import ceil
-
+from pathlib import Path
+import textwrap
 
 class MemeEngine:
     """A MemeEngine use the make_meme method to create a meme from an image."""
@@ -38,21 +40,39 @@ class MemeEngine:
         height = ceil(old_height/old_width * width)
         new_img = img.resize((width, height))
 
-        # add quote
-        offset = 20
-        text_pos = (randint(0, width/2), randint(0, height-60))
-        author_pos = (text_pos[0], text_pos[1] + offset)
+        # wrap text
+        font_size = 18
+        t = ceil(width/(font_size-3)) 
+        text_list = textwrap.TextWrapper(t).wrap(text)
+        author_list = textwrap.TextWrapper(t).wrap(author) 
+        n = len(text_list)
+        m = len(author_list)
+        x_offset = max(len(text_list[0]), len(author_list[0])) * (font_size - 6)
+        y_offset = (n + m) * font_size
+        next_line_offset = font_size
+
+        # get position
+        text_pos = (randint(0, width-x_offset), randint(0, height-y_offset))
+        author_pos = (text_pos[0], text_pos[1] + next_line_offset * n)
 
         draw = ImageDraw.Draw(new_img)
-        # myfont = ImageFont.truetype('Tests/fonts/DejaVuSans.ttf')
         myfont = ImageFont.truetype(fm.findfont(
-                                    fm.FontProperties('DejaVuSans.ttf')), 18)
-        draw.text(text_pos, text, fill=(255, 255, 0), font=myfont)
-        draw.text(author_pos, "- "+author, fill=(255, 255, 0), font=myfont)
+                                    fm.FontProperties('DejaVuSans.ttf')), font_size)
+        # draw body
+        for i in range(n):
+            pos = (text_pos[0], text_pos[1] + next_line_offset * i)
+            draw.text(pos, text_list[i], fill=(255, 255, 0), font=myfont)
+
+        # draw author
+        for i in range(m):
+            pos = (author_pos[0], author_pos[1] + next_line_offset * i)
+            draw.text(pos, "- "+author_list[i], fill=(255, 255, 0), font=myfont)
 
         if not os.path.exists(self.output_dir):
             os.mkdir(self.output_dir)
-        filename = self.output_dir + "/" + img_path.split("/")[-1]
+        filename = self.output_dir + "/" + Path(img_path).name
         new_img.save(filename)
 
         return filename
+
+    
